@@ -23,6 +23,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->app->bind(
+            'App\Repositories\Interfaces\User',
+            'App\Repositories\Repository\User'
+        );
     }
 }
