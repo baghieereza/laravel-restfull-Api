@@ -31,7 +31,7 @@ interface  Gallery
      *
      * @return mixed
      */
-    public function store();
+    public function store($request);
 
     /**
      * edit gallery

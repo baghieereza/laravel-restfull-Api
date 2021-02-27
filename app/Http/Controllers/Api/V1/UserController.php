@@ -16,18 +16,35 @@ class UserController extends Controller
 {
     public $user;
 
+    /**
+     * UserController constructor.
+     *
+     * @param \App\Repositories\Interfaces\User $UserInterface
+     */
     public function __construct(UserInterface $UserInterface)
     {
         $this->user = $UserInterface;
     }
 
 
+    /**
+     * show all users
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function All()
     {
         $data = $this->user->all();
         return response()->json(["success" => true, "data" => $data], 200);
     }
 
+    /**
+     * add new user
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store(Request $request)
     {
         // validation
@@ -42,6 +59,25 @@ class UserController extends Controller
 
         //store data
         $data = $this->user->store($request);
+
+        //return response
+        return response()->json($data, 200);
+    }
+
+
+    public function changeAvatar(Request $request)
+    {
+         // validation
+        $rules = [
+            'user_id' => 'required|exists:users,id',
+            "avatar" => "required|mimes:jpeg,png,jpg,gif,svg|max:2000"
+        ];
+        if (Helper::Validation($request, $rules) <> null) {
+            return Helper::Validation($request, $rules);
+        }
+
+        //store data
+        $data = $this->user->changeAvatar($request);
 
         //return response
         return response()->json($data, 200);

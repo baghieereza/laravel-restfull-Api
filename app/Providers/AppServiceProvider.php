@@ -27,5 +27,9 @@ class AppServiceProvider extends ServiceProvider
             'App\Repositories\Interfaces\User',
             'App\Repositories\Repository\User'
         );
+        $this->app->bind(
+            'App\Repositories\Interfaces\Gallery',
+            'App\Repositories\Repository\Gallery'
+        );
     }
 }

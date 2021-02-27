@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\Model;
 class Gallery_picture extends Model
 {
 
+    protected $table = "gallery_picture";
+
     protected $fillable = [
         "id", "name", "url", "gallery_id", "created_at", "updated_at"
     ];
@@ -21,6 +23,6 @@ class Gallery_picture extends Model
      */
     public function Gallery()
     {
-        return $this->hasOne(Gallery::class , 'gallery_id' , 'id');
+        return $this->hasOne(Gallery::class, 'gallery_id', 'id');
     }
 }

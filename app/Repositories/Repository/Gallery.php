@@ -1,7 +1,10 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\Repository;
 
+use App\Http\Helper;
+use App\Models\Gallery_guest;
+use App\Models\Gallery_picture;
 use \App\Repositories\Interfaces\Gallery as GalleryInterface;
 
 /**
@@ -31,7 +34,7 @@ class Gallery implements GalleryInterface
      */
     public function all()
     {
-        // TODO: Implement all() method.
+        return \App\Models\Gallery::with(["guests", "pictures"])->get();
     }
 
     /**
@@ -39,9 +42,14 @@ class Gallery implements GalleryInterface
      *
      * @return mixed
      */
-    public function store()
+    public function store($request)
     {
-        // TODO: Implement store() method.
+        \App\Models\Gallery::create([
+            'name' => $request->name,
+            "owner_id" => $request->owner_id
+        ]);
+
+        return ["success" => true, "data" => \App\Models\Gallery::with("guests", ["pictures"])->get()];
     }
 
     /**
@@ -67,21 +75,40 @@ class Gallery implements GalleryInterface
     /**
      * add new guest
      *
+     * @param $request
+     *
      * @return mixed
      */
-    public function addGuest()
+    public function addGuest($request)
     {
-        // TODO: Implement addGuest() method.
+        $guest = Gallery_guest::where("guest_id", $request->guest_id)->where("gallery_id", $request->gallery_id)->first();
+        if ($guest)
+            return ["data" => ["success" => false, "data" => ["guest_id" => "this guest already exist"]], "status" => 400];
+        Gallery_guest::create([
+            "guest_id" => $request->guest_id,
+            "gallery_id" => $request->gallery_id
+        ]);
+
+        return ["data" => ["success" => true, "data" => \App\Models\Gallery::with(["guests", "pictures"])->get()], "status" => 200];
     }
 
     /**
      * add new picture
      *
+     * @param $request
+     *
      * @return mixed
      */
-    public function addPicture()
+    public function addPicture($request)
     {
-        // TODO: Implement addPicture() method.
+        $picUrl = Helper::Upload($request, "picture", "uploads/gallery");
+        Gallery_picture::create([
+            "name" => $request->name,
+            "gallery_id" => $request->gallery_id,
+            "url" => $picUrl
+        ]);
+        return ["success" => true, "data" => \App\Models\Gallery::with(["guests", "pictures"])->get()];
+
     }
 
 

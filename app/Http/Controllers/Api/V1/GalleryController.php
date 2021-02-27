@@ -16,47 +16,94 @@ class GalleryController
 {
     public $gallery;
 
+    /**
+     * GalleryController constructor.
+     *
+     * @param \App\Repositories\Interfaces\Gallery $galleryInterface
+     */
     public function __construct(GalleryInterface $galleryInterface)
     {
         $this->gallery = $galleryInterface;
     }
 
-
+    /**
+     * @return array
+     */
     public function All()
     {
         $data = $this->gallery->all();
         return ["success" => true, "data" => $data];
     }
 
+    /**
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function Store(Request $request)
     {
-        // validation
+        //validation
+        $rules = [
+            'name' => 'required|unique:gallery',
+            'owner_id' => 'required|exists:users,id',
+        ];
+        if (Helper::Validation($request, $rules) <> null) {
+            return Helper::Validation($request, $rules);
+        }
+
+        // store
         $data = $this->gallery->store($request);
-        return ["success" => $data["flag"], "data" => $this->gallery->get($data["last_id"])];
+
+        //response
+        return response()->json($data, 200);
     }
 
+    /**
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function addPicture(Request $request)
     {
         //validation
-        $data = $this->gallery->addPicture();
-        return ["success" => $data["flag"], "data" => $this->gallery->get($data["last_id"])];
+        $rules = [
+            'name' => 'required',
+            'gallery_id' => 'required|exists:gallery,id',
+            "picture" => "required|mimes:jpeg,png,jpg,gif,svg|max:2000"
+        ];
+        if (Helper::Validation($request, $rules) <> null) {
+            return Helper::Validation($request, $rules);
+        }
+        //add new
+        $data = $this->gallery->addPicture($request);
+
+        // response
+        return response()->json($data, 200);
     }
 
+    /**
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function addGuest(Request $request)
     {
         //validation
-        $data = $this->gallery->addGuest();
-        return ["success" => $data["flag"], "data" => $this->gallery->get($data["last_id"])];
+        $rules = [
+            'guest_id' => 'required|exists:users,id',
+            'gallery_id' => 'required|exists:gallery,id',
+        ];
+        if (Helper::Validation($request, $rules) <> null) {
+            return Helper::Validation($request, $rules);
+        }
+
+        //store new guest
+        $result = $this->gallery->addGuest($request);
+
+        //response
+        return response()->json($result["data"], $result["status"]);
     }
 
-    public function removePicture(Request $request)
-    {
 
-    }
-
-    public function removeGuest(Request $request)
-    {
-
-    }
 
 }

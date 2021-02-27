@@ -2,6 +2,9 @@
 
 namespace App\Http;
 
+use Illuminate\Support\Facades\File;
+use Validator;
+
 /**
  * Class Helper
  *
@@ -39,5 +42,17 @@ class Helper
         if ($validated->fails()) {
             return response()->json(['success' => false, 'data' => $validated->errors()], 400);
         }
+    }
+
+
+
+    /**
+     * @param $path
+     *
+     * @return bool
+     */
+    public static function DeleteFile($path)
+    {
+        return File::delete($path);
     }
 }

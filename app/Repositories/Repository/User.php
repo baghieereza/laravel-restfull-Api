@@ -44,7 +44,7 @@ class User implements UserInterface
     public function store($request)
     {
         $avatarUrl = Helper::Upload($request, "avatar", public_path("uploads/avatar"));
-        $user = UserModel::create([
+        UserModel::create([
             "name" => $request->name,
             "family" => $request->family,
             "avatar" => $avatarUrl,
@@ -70,5 +70,23 @@ class User implements UserInterface
     public function destroy()
     {
         // TODO: Implement destroy() method.
+    }
+
+
+    public function changeAvatar($request)
+    {
+        // upload new photo
+        $avatarUrl = Helper::Upload($request, "avatar", public_path("uploads/avatar"));
+
+        //get and delete old photo
+        $user = \App\Models\User::find($request->user_id);
+        Helper::DeleteFile($user->avatar);
+
+        //save new thing
+        $user->avatar = $avatarUrl;
+        $user->save();
+
+        //response
+        return ["success" => true, "data" => UserModel::with(["gallery.guests", "gallery.pictures"])->get()];
     }
 }

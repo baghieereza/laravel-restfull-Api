@@ -45,4 +45,6 @@ interface  User
      * @return mixed
      */
     public function destroy();
-}
+
+
+ }
