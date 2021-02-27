@@ -27,6 +27,7 @@ class GalleryController
     }
 
     /**
+     * get all Galleries
      * @return array
      */
     public function All()
@@ -36,6 +37,7 @@ class GalleryController
     }
 
     /**
+     *  store new Gallery
      * @param \Illuminate\Http\Request $request
      *
      * @return \Illuminate\Http\JsonResponse
@@ -59,6 +61,7 @@ class GalleryController
     }
 
     /**
+     * add picture to Gallery
      * @param \Illuminate\Http\Request $request
      *
      * @return \Illuminate\Http\JsonResponse
@@ -82,6 +85,7 @@ class GalleryController
     }
 
     /**
+     * add guest to Gallery
      * @param \Illuminate\Http\Request $request
      *
      * @return \Illuminate\Http\JsonResponse

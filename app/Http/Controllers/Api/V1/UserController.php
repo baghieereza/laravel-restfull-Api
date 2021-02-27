@@ -26,7 +26,6 @@ class UserController extends Controller
         $this->user = $UserInterface;
     }
 
-
     /**
      * show all users
      *
@@ -64,7 +63,12 @@ class UserController extends Controller
         return response()->json($data, 200);
     }
 
-
+    /**
+     * change user avatar
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function changeAvatar(Request $request)
     {
          // validation
