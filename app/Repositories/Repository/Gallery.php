@@ -49,7 +49,7 @@ class Gallery implements GalleryInterface
             "owner_id" => $request->owner_id
         ]);
 
-        return ["success" => true, "data" => \App\Models\Gallery::with("guests", ["pictures"])->get()];
+        return ["success" => true, "data" => \App\Models\Gallery::with(["guests", "pictures"])->get()];
     }
 
     /**

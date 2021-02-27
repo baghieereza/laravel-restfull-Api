@@ -27,8 +27,8 @@ Route::prefix("users")->group(function () {
 Route::prefix("gallery")->group(function () {
     Route::get("/all", [GalleryController::class, "all"]);
     Route::post("/store", [GalleryController::class, "store"]);
-    Route::post("/newPicture", [GalleryController::class, "addPicture"]);
-    Route::post("/newGuest", [GalleryController::class, "addGuest"]);
+    Route::post("/addPicture", [GalleryController::class, "addPicture"]);
+    Route::post("/addGuest", [GalleryController::class, "addGuest"]);
 });
 
 

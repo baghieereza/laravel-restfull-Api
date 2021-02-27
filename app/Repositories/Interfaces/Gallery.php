@@ -29,6 +29,8 @@ interface  Gallery
     /**
      * store new gallery
      *
+     * @param $request
+     *
      * @return mixed
      */
     public function store($request);
