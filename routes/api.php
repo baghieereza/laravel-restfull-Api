@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix("users")->group(function () {
     Route::get("/all", [UserController::class, "all"]);
     Route::post("/store", [UserController::class, "store"]);
-    Route::post("/changeAvatar", [UserController::class, "changeAvatar"]);
+    Route::patch("/changeAvatar", [UserController::class, "changeAvatar"]);
 });
 
 Route::prefix("gallery")->group(function () {
