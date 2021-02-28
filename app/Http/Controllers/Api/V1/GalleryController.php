@@ -33,7 +33,7 @@ class GalleryController
     public function All()
     {
         $data = $this->gallery->all();
-        return ["success" => true, "data" => $data];
+        return response()->json(["success" => true, "data" => $data]);
     }
 
     /**
